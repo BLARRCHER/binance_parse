@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  redis_t:
+    image: redis:7.0-rc3-alpine3.15
+    env_file:
+      - .env
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
+
+  api:
+    build: .
+    restart: always
+    ports:
+      - 8000:8000
+    depends_on:
+      - redis_t
+    env_file:
+      - .env
+
+volumes:
+  redis_volume:
+
